@@ -16,9 +16,9 @@ lo implementéis de manera que todas las operaciones tengan elmínimo coste temp
 
 struct Cancion
 {
-    int cancion;
-    int numVeces;
-    int duracion;
+    int cancion = 0;
+    int numVeces = 0;
+    int duracion = 0;
 };
 
 class Radio
@@ -26,31 +26,24 @@ class Radio
     public:
         Radio();
         void anadirCacnion(Cancion can);
-        Lista<Cancion>::posicion  sugiereCancion();
+        Cancion sugiereCancion();
         Cancion seleccionaCancion();
         Cancion emitirCancion(int id);
-        void eliminarCancion(int n);
+        void eliminarCancion(size_t n);
         ~Radio();
     private:
         Lista<Cancion> emisora;
         size_t tamaMax;
-
+        Lista<Cancion>::posicion buscarPosicion();
 };
 
 Radio::Radio() {}
 
-void Radio::anadirCacnion(Cancion can)
-{
-    assert(emisora.tama() < tamaMax);
-    can.numVeces = 0;
-    emisora.insertar(can, emisora.fin());
-}
-
-Lista<Cancion>::posicion Radio::sugiereCancion()
+Lista<Cancion>::posicion Radio::buscarPosicion()
 {
     int aux = 999999;
-    Lista<Cancion>::posicion posicion = emisora.primera();
     Lista<Cancion>::posicion aux1;
+    Lista<Cancion>::posicion posicion = emisora.primera();
     while (posicion != emisora.fin())
     {
         if (aux > emisora.elemento(posicion).numVeces)
@@ -60,6 +53,21 @@ Lista<Cancion>::posicion Radio::sugiereCancion()
         posicion = emisora.siguiente(posicion);
     }
     return aux1;
+}
+
+void Radio::anadirCacnion(Cancion can)
+{
+    assert(emisora.tama() < tamaMax);
+    can.numVeces = 0;
+    emisora.insertar(can, emisora.fin());
+}
+
+Cancion Radio::sugiereCancion()
+{
+    Cancion aux;
+    Lista<Cancion>::posicion posicion = buscarPosicion();
+    aux = emisora.elemento(posicion);
+    return aux;
 }
 
 Cancion Radio::seleccionaCancion()
@@ -96,13 +104,13 @@ Cancion Radio::emitirCancion(int id)
     return aux;
 }
 
-void Radio::eliminarCancion(int n)
+void Radio::eliminarCancion(size_t n)
 {
     assert(emisora.tama() > n);
     Lista<Cancion>::posicion posicion;
     while (n > 0)
     {
-        posicion = sugiereCancion();
+        posicion = buscarPosicion();
         emisora.eliminar(posicion);
         n--;
     }
