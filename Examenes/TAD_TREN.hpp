@@ -1,13 +1,6 @@
 #ifndef TADTREN_HPP
 #define TADTREN_HPP
 #include "../P4/pilaD.hpp"
-// #include "../P4/pilaP.hpp"
-// #include "../P5/ColaEnla.hpp"
-// #include "../P5/ColaP.hpp"
-// #include "../P6/listavec.hpp"
-// #include "../P6/listaenla.hpp"
-// #include "../P6/listadoble.hpp"
-// #include "../P6/listacircular.hpp"
 
 /*Definicion: Secuencia de vagones. Si la secuencia no está vacia, hay un vagón del tren denominado "activo" sobre el que puede actuar un robot manipulador.
     Operaciones:
